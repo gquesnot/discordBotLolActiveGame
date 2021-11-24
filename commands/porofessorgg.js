@@ -26,11 +26,10 @@ function delay(time) {
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('opgg')
-        .setDescription('check opgg live match'),
+        .setName('porofessorgg')
+        .setDescription('check porofessorgg live match'),
     async execute(interaction) {
         let summoner = await Summoner.findOne({where: {discordId: interaction.user.id}})
-
 
 
         for (const file of fs.readdirSync("img")) {
@@ -38,34 +37,39 @@ module.exports = {
         }
         if (summoner) {
             if (summoner.region === "euw") {
-                let url = 'https://euw.op.gg/summoner/spectator/userName=' + summoner.summonerName
+                let url = 'https://porofessor.gg/live/euw/' + summoner.summonerName
                 await interaction.reply(url)
                 const browser = await puppeteer.launch({
                     headless: true, // The browser is visible
+
                 });
+
                 const page = await browser.newPage();
-                await page.setViewport({width: 1920, height: 1080, deviceScaleFactor: 2});
-
-                await page.goto(url);
-                await page.setRequestInterception(true);
-
-                await delay(500)
-                let error = await page.$('.SpectatorError')
-                if (error){
-
-                    await interaction.followUp("not in game");
-                }
-            else{
-                    await page.evaluate(() => {
-                        window.scrollTo(0, window.innerHeight - 50)
+                await page.setRequestInterception(true)
+                page.on('request', (request) => {
+                    const headers = request.headers();
+                    headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0';
+                    request.continue({
+                        headers
                     });
+                });
+                await page.setViewport({width: 1920, height: 1080, deviceScaleFactor:2});
+                let request = await page.goto(url)
+                try {
+                    let toFind = await page.waitForSelector("#liveContent > div.site-content.site-content-bg > ul:nth-child(3)", {
+                        timeout: 5000
+                    })
+                    await page.evaluate( () => {
+                        document.getElementById('ncmp__tool').style.setProperty("display", "none");
+                    })
                     let fileName = makeId(10) + ".jpg";
                     let path = "img/" + fileName;
-                    await page.screenshot({path: path,quality:60,clip: {
-                            x: 460,
-                            y: 500,
-                            width:1000,
-                            height: 455
+
+                    await page.screenshot({path: path,quality: 60,clip: {
+                            x: 350,
+                            y: 200,
+                            width:1225,
+                            height: 1500
                         }});
 
                     const file = new MessageAttachment(path);
@@ -78,9 +82,13 @@ module.exports = {
 
 
                     await interaction.followUp({embeds: [embed], files: [file]});
+                } catch (e) {
+
+                    await interaction.followUp("not in game");
                 }
 
-                await browser.close();
+
+                //await browser.close();
 
             }
 
