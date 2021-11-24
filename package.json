@@ -1,0 +1,26 @@
+{
+  "name": "discordbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node deploy_command && nodemon"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/builders": "^0.8.2",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "discord-api-types": "^0.24.0",
+    "discord.js": "^13.3.1",
+    "fs": "^0.0.1-security",
+    "node": "^17.1.0",
+    "nodemon": "^2.0.15",
+    "puppeteer": "^11.0.0",
+    "sequelize": "^6.12.0-alpha.1",
+    "sqlite3": "^4.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.3.0"
+  }
+}
