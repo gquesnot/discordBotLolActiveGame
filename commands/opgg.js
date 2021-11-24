@@ -1,5 +1,6 @@
 const PuppeteerNetworkMonitor = require("../lib/puppeteernetworkmonitor");
 const puppeteer = require('puppeteer');
+const fs = require("fs");
 const {unlink} = require("fs/promises");
 const {MessageEmbed} = require("discord.js");
 const {MessageAttachment} = require("discord.js");
@@ -30,6 +31,9 @@ module.exports = {
     async execute(interaction) {
         await interaction.reply("loading ...")
         let summoner = await Summoner.findOne({where: {discordId: interaction.user.id}})
+        for (const file of fs.readdirSync("img")) {
+            await unlink("img/"+file);
+        }
         if (summoner) {
             if (summoner.region === "euw") {
                 const browser = await puppeteer.launch({
@@ -70,6 +74,7 @@ module.exports = {
                             url: 'attachment://' + fileName,
                         },
                     };
+
 
                     await interaction.followUp({embeds: [exampleEmbed], files: [file]});
                 }
