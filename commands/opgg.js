@@ -68,7 +68,7 @@ module.exports = {
                         }});
 
                     const file = new MessageAttachment(path);
-                    const exampleEmbed = {
+                    const embed = {
                         title: 'Live Game',
                         image: {
                             url: 'attachment://' + fileName,
@@ -76,7 +76,7 @@ module.exports = {
                     };
 
 
-                    await interaction.followUp({embeds: [exampleEmbed], files: [file]});
+                    await interaction.followUp({embeds: [embed], files: [file]});
                 }
 
                 await browser.close();
