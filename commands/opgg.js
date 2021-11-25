@@ -34,11 +34,11 @@ module.exports = {
                 await page.setViewport({width: 1920, height: 1080, deviceScaleFactor: 2});
 
                 await page.goto(url);
-                await page.setRequestInterception(true);
 
-                await delay(500)
-                let error = await page.$('.SpectatorError')
-                if (error){
+                let spectateDiv = await page.waitForSelector('.SpectateSummoner', {
+                    timeout:1000
+                })
+                if (!spectateDiv){
 
                     await interaction.followUp("not in game");
                 }
