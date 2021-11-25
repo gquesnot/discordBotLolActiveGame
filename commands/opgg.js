@@ -35,14 +35,10 @@ module.exports = {
 
                 await page.goto(url);
 
-                let spectateDiv = await page.waitForSelector('.SpectateSummoner', {
-                    timeout:1000
-                })
-                if (!spectateDiv){
-
-                    await interaction.followUp("not in game");
-                }
-                else{
+                try{
+                    let spectateDiv = await page.waitForSelector('.SpectateSummoner', {
+                        timeout:1000
+                    })
                     await page.evaluate(() => {
                         window.scrollTo(0, window.innerHeight - 50)
                     });
@@ -65,8 +61,10 @@ module.exports = {
 
 
                     await interaction.followUp({embeds: [embed], files: [file]});
-                }
 
+                }catch (e){
+                    await interaction.followUp("not in game");
+                }
                 await browser.close();
 
             }
