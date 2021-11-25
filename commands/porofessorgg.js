@@ -1,6 +1,7 @@
 const PuppeteerNetworkMonitor = require("../lib/puppeteernetworkmonitor");
 const puppeteer = require('puppeteer');
 const fs = require("fs");
+const {delay} = require("../lib/util");
 const {makeId} = require("../lib/util");
 const {unlink} = require("fs/promises");
 const {MessageEmbed} = require("discord.js");
@@ -41,6 +42,7 @@ module.exports = {
                 await page.setViewport({width: 1920, height: 1080, deviceScaleFactor:2});
                 let request = await page.goto(url)
                 try {
+                    await delay(500);
                     let toFind = await page.waitForSelector("#liveContent > div.site-content.site-content-bg > ul:nth-child(3)", {
                         timeout: 5000
                     })
@@ -55,7 +57,7 @@ module.exports = {
                             x: 350,
                             y: 200,
                             width:1225,
-                            height: 1500
+                            height: 1600
                         }});
 
                     const file = new MessageAttachment(path);
