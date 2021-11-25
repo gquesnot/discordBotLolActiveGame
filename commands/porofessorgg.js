@@ -24,7 +24,7 @@ module.exports = {
         if (summoner) {
             if (summoner.region === "euw") {
                 let url = 'https://porofessor.gg/live/euw/' + summoner.summonerName
-                await interaction.reply(url)
+                await interaction.reply(encodeURI(url))
                 const browser = await puppeteer.launch({
                     headless: true, // The browser is visible
                     args: ['--no-sandbox'],
