@@ -41,7 +41,7 @@ module.exports = {
                 await interaction.reply(url)
                 const browser = await puppeteer.launch({
                     headless: true, // The browser is visible
-
+                    args: ['--no-sandbox'],
                 });
 
                 const page = await browser.newPage();
@@ -59,9 +59,10 @@ module.exports = {
                     let toFind = await page.waitForSelector("#liveContent > div.site-content.site-content-bg > ul:nth-child(3)", {
                         timeout: 5000
                     })
-                    await page.evaluate( () => {
-                        document.getElementById('ncmp__tool').style.setProperty("display", "none");
-                    })
+
+                    //await page.evaluate( () => {
+                    //    document.getElementById('ncmp__tool').style.setProperty("display", "none");
+                    //})
                     let fileName = makeId(10) + ".jpg";
                     let path = "img/" + fileName;
 

@@ -42,6 +42,7 @@ module.exports = {
                 await interaction.reply(url)
                 const browser = await puppeteer.launch({
                     headless: true, // The browser is visible
+                    args: ['--no-sandbox'],
                 });
                 const page = await browser.newPage();
                 await page.setViewport({width: 1920, height: 1080, deviceScaleFactor: 2});
@@ -55,7 +56,7 @@ module.exports = {
 
                     await interaction.followUp("not in game");
                 }
-            else{
+                else{
                     await page.evaluate(() => {
                         window.scrollTo(0, window.innerHeight - 50)
                     });
