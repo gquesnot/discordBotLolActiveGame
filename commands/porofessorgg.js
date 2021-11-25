@@ -1,28 +1,13 @@
 const PuppeteerNetworkMonitor = require("../lib/puppeteernetworkmonitor");
 const puppeteer = require('puppeteer');
 const fs = require("fs");
+const {makeId} = require("../lib/util");
 const {unlink} = require("fs/promises");
 const {MessageEmbed} = require("discord.js");
 const {MessageAttachment} = require("discord.js");
 const {SlashCommandBuilder} = require('@discordjs/builders');
 const {Summoner} = require("../db");
 
-function makeId(length) {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() *
-            charactersLength));
-    }
-    return result;
-}
-
-function delay(time) {
-    return new Promise(function (resolve) {
-        setTimeout(resolve, time)
-    });
-}
 
 module.exports = {
     data: new SlashCommandBuilder()
