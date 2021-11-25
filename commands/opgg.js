@@ -72,7 +72,7 @@ module.exports = {
             }
 
         } else {
-            await interaction.followUp("not registred use /set_summoner before");
+            await interaction.reply("not registred use /set_summoner before");
         }
     },
 };
